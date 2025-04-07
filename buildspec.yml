@@ -5,20 +5,14 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - echo "Actualizando paquetes del sistema..."
       - yum update -y
-      - echo "Instalando dependencias del sistema para pymssql..."
-      - yum install -y gcc freetds freetds-devel unixODBC-devel zip
-      - echo "Instalando pip en caso de que falte..."
+      - yum install -y python3 python3-devel gcc freetds freetds-devel zip
       - curl -O https://bootstrap.pypa.io/get-pip.py
       - python3 get-pip.py
   build:
     commands:
-      - echo "Creando estructura de layer para Python 3.9..."
       - mkdir -p python/lib/python3.9/site-packages
-      - echo "Instalando librerías Python en el layer..."
       - pip3 install --no-cache-dir --target=python/lib/python3.9/site-packages pandas pymssql
-      - echo "Empaquetando el layer..."
       - zip -r layer.zip python
 artifacts:
   files:
