@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - yum update -y
+      - yum install -y python39 python39-devel gcc openssl-devel libffi-devel zip
+  build:
+    commands:
+      - mkdir -p layer/python/lib/python3.9/site-packages
+      - pip3 install --no-cache-dir --target=layer/python/lib/python3.9/site-packages \
+          pandas certifi sqlalchemy python-tds sqlalchemy-pytds pyOpenSSL cryptography
+      - cd layer
+      - zip -r layer.zip python
+artifacts:
+  files:
+    - layer/layer.zip
