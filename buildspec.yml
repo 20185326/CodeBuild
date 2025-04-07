@@ -1,16 +1,25 @@
 version: 0.2
+
 phases:
   install:
+    runtime-versions:
+      python: 3.9
     commands:
+      - echo "Actualizando paquetes del sistema..."
       - yum update -y
-      - yum install -y python39 python3.9-devel gcc openssl-devel libffi-devel zip
+      - echo "Instalando dependencias del sistema para pymssql..."
+      - yum install -y gcc freetds freetds-devel unixODBC-devel zip
+      - echo "Instalando pip en caso de que falte..."
+      - curl -O https://bootstrap.pypa.io/get-pip.py
+      - python3 get-pip.py
   build:
     commands:
-      - mkdir -p layer/python/lib/python3.9/site-packages
-      - pip3 install --no-cache-dir --target=layer/python/lib/python3.9/site-packages \
-          pandas certifi sqlalchemy python-tds sqlalchemy-pytds pyOpenSSL cryptography
-      - cd layer
+      - echo "Creando estructura de layer para Python 3.9..."
+      - mkdir -p python/lib/python3.9/site-packages
+      - echo "Instalando librerías Python en el layer..."
+      - pip3 install --no-cache-dir --target=python/lib/python3.9/site-packages pandas pymssql
+      - echo "Empaquetando el layer..."
       - zip -r layer.zip python
 artifacts:
   files:
-    - layer/layer.zip
+    - layer.zip
