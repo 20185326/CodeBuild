@@ -3,7 +3,7 @@ phases:
   install:
     commands:
       - yum update -y
-      - yum install -y python39 python39-devel gcc openssl-devel libffi-devel zip
+      - yum install -y python39 python3.9-devel gcc openssl-devel libffi-devel zip
   build:
     commands:
       - mkdir -p layer/python/lib/python3.9/site-packages
